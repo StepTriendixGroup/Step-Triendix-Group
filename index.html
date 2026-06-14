@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step Triendix 3D - Professional Studio</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: #0f172a; 
+            color: #f8fafc; 
+        }
+        .neon-border { 
+            box-shadow: 0 0 15px rgba(34, 211, 238, 0.15); 
+            border: 1px solid rgba(34, 211, 238, 0.3); 
+        }
+        .neon-btn { 
+            background: linear-gradient(135deg, #22d3ee 0%, #0ea5e9 100%); 
+            box-shadow: 0 4px 15px rgba(34, 211, 238, 0.3); 
+            transition: all 0.3s ease;
+        }
+        .neon-btn:hover { 
+            background: linear-gradient(135deg, #4ade80 0%, #22d3ee 100%); 
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-6">
+
+    <header class="sticky top-0 z-50 bg-[#0f172a]/80 backdrop-blur-md border-b border-slate-800 px-4 py-3 flex justify-between items-center">
+        <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-green-400 to-cyan-500 flex items-center justify-center font-bold text-slate-950">S</div>
+            <span class="text-lg font-bold tracking-tight text-white">Step <span class="text-cyan-400 font-medium">Triendix 3D</span></span>
+        </div>
+        <button onclick="toggleSettingsModal()" class="p-2 rounded-xl bg-slate-800 text-slate-400 hover:text-cyan-400 cursor-pointer transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+            </svg>
+        </button>
+    </header>
+
+    <main class="max-w-md mx-auto px-4 mt-6 space-y-6">
+        <div class="p-5 rounded-2xl bg-gradient-to-b from-slate-900 to-slate-950 neon-border text-center">
+            <h1 class="text-2xl font-bold text-white">Step Triendix 3D</h1>
+            <p class="text-sm text-slate-400 mt-1">अपनी कल्पना को 3D हकीकत में बदलें।</p>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
+            <h2 class="text-base font-bold text-white border-b border-slate-800 pb-2">⚖️ लाइव रेट कैलकुलेटर</h2>
+            <input type="number" id="weightInput" oninput="calculatePrice()" placeholder="वजन (ग्राम में)" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-cyan-400">
+            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 flex justify-between">
+                <span class="text-slate-400">कुल कीमत:</span>
+                <span class="font-bold text-cyan-400" id="priceDisplay">₹0</span>
+            </div>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
+            <h2 class="text-base font-bold text-white border-b border-slate-800 pb-2">📦 ऑर्डर कस्टमाइज करें</h2>
+            <input type="text" id="itemName" placeholder="प्रोडक्ट का नाम" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-cyan-400">
+            <textarea id="orderNotes" rows="3" placeholder="अपना नाम, पूरा पता और डिटेल्स..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-cyan-400"></textarea>
+            <button onclick="sendWhatsAppOrder()" class="w-full neon-btn text-slate-950 font-bold py-3 rounded-xl cursor-pointer">व्हाट्सएप पर ऑर्डर भेजें</button>
+        </div>
+
+        <footer class="text-center mt-8">
+            <p class="text-xs text-slate-500">Powered by <span class="text-cyan-400 font-semibold">Mani</span></p>
+            <p class="text-[10px] text-slate-600 mt-1">© 2026 Step Triendix 3D Studio</p>
+        </footer>
+    </main>
+
+    <div id="settingsModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 w-full max-w-sm rounded-2xl p-5 space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                <h3 class="font-bold text-white">⚙️ सेटिंग्स</h3>
+                <button onclick="toggleSettingsModal()" class="text-slate-400 font-bold text-xl hover:text-red-400">&times;</button>
+            </div>
+            <div>
+                <label class="text-xs text-slate-400 block mb-1">व्हाट्सएप नंबर (बिना देश के कोड के):</label>
+                <input type="text" id="adminPhone" placeholder="9876543210" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white text-sm focus:outline-none focus:border-cyan-400">
+            </div>
+            <div>
+                <label class="text-xs text-slate-400 block mb-1">रेट प्रति ग्राम (₹):</label>
+                <input type="number" id="adminRate" placeholder="6" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white text-sm focus:outline-none focus:border-cyan-400">
+            </div>
+            <button onclick="saveAdminSettings()" class="w-full neon-btn text-slate-950 font-bold py-2.5 rounded-xl cursor-pointer">सेव करें</button>
+        </div>
+    </div>
+
+    <script>
+        // डिफ़ॉल्ट कॉन्फ़िगरेशन
+        let config = { whatsappNumber: "919876543210", ratePerGram: 6 };
+
+        // लोकल स्टोरेज से सेटिंग्स लोड करना
+        if(localStorage.getItem('stepTriendix_config')) {
+            config = JSON.parse(localStorage.getItem('stepTriendix_config'));
+        }
+
+        // पेज लोड होते ही इनपुट बॉक्स में पुरानी सेटिंग्स दिखाना
+        document.getElementById('adminPhone').value = config.whatsappNumber.replace("91", "");
+        document.getElementById('adminRate').value = config.ratePerGram;
+
+        // लाइव रेट कैलकुलेट करने का फंक्शन
+        function calculatePrice() {
+            const weight = parseFloat(document.getElementById('weightInput').value) || 0;
+            const totalPrice = weight * config.ratePerGram;
+            document.getElementById('priceDisplay').textContent = "₹" + totalPrice;
+        }
+
+        // व्हाट्सएप पर ऑर्डर भेजने का फंक्शन
+        function sendWhatsAppOrder() {
+            const itemName = document.getElementById('itemName').value || "Not Specified";
+            const weight = document.getElementById('weightInput').value || "0";
+            const price = document.getElementById('priceDisplay').textContent;
+            const notes = document.getElementById('orderNotes').value || "Not Provided";
+
+            const text = `*🔥 STEP TRIENDIX 3D - NEW ORDER *\n\n` +
+                         `*📦 प्रोडक्ट:* ${itemName}\n` +
+                         `*⚖️ वजन:* ${weight} ग्राम\n` +
+                         `*💰 कीमत:* ${price}\n` +
+                         `*📝 पता व डिटेल्स:* ${notes}`;
+
+            window.open(`https://wa.me/${config.whatsappNumber}?text=${encodeURIComponent(text)}`, '_blank');
+        }
+
+        // सेटिंग्स मॉडल को खोलने/बंद करने का फंक्शन
+        function toggleSettingsModal() { 
+            document.getElementById('settingsModal').classList.toggle('hidden'); 
+        }
+
+        // सेटिंग्स सेव करने का फंक्शन
+        function saveAdminSettings() {
+            const phoneInput = document.getElementById('adminPhone').value.trim();
+            const rateInput = parseFloat(document.getElementById('adminRate').value);
+
+            if(!phoneInput || isNaN(rateInput)) {
+                alert("कृपया सही नंबर और रेट डालें!");
+                return;
+            }
+
+            config.whatsappNumber = "91" + phoneInput;
+            config.ratePerGram = rateInput;
+            
+            localStorage.setItem('stepTriendix_config', JSON.stringify(config));
+            calculatePrice(); // नई रेट के हिसाब से कीमत तुरंत अपडेट करें
+            toggleSettingsModal();
+            alert("✅ सेटिंग्स सफलतापूर्वक अपडेट हो गई!");
+        }
+    </script>
+</body>
+</html>
